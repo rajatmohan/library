@@ -83,8 +83,6 @@ const createBookCard = (book) => {
     return cardDiv;
 };
 
-const bookListDiv = document.querySelector(".grid-container");
-
 const displayBooks = ()=> {
     myLibrary.library.forEach(book => bookListDiv.appendChild(createBookCard(book)));
 }
@@ -92,7 +90,7 @@ const displayBooks = ()=> {
 let myLibrary = new Library();
 
 //displayBooks();
-
+const bookListDiv = document.querySelector(".grid-container");
 const addBookBtn = document.querySelector("#addBookButton");
 const addBookDiv = document.querySelector("#addBookDiv");
 const closeAddBookFromBtn = document.querySelector(".close");
@@ -100,7 +98,6 @@ const addBookForm = document.querySelector("#addBookForm");
 
 const closeBookModel = () => {
     addBookDiv.style.display = "none";
-
 }
 
 addBookBtn.addEventListener("click", ()=> { 
