@@ -68,7 +68,6 @@ const createBookCard = (book) => {
     bookDeleteBtn.classList.add("delete");
     bookDeleteBtn.addEventListener('click', (event)=> {
         myLibrary.removeBookFromLibrary(book.title);
-
         const bookCard = event.target.parentElement.parentElement;
         bookCard.parentElement.removeChild(bookCard);
         console.log(myLibrary.library);
@@ -84,26 +83,63 @@ const createBookCard = (book) => {
     return cardDiv;
 };
 
-const displayBooks = ()=> {
-    const bookListDiv = document.querySelector(".grid-container");
+const bookListDiv = document.querySelector(".grid-container");
 
+const displayBooks = ()=> {
     myLibrary.library.forEach(book => bookListDiv.appendChild(createBookCard(book)));
 }
 
 let myLibrary = new Library();
 
-let b1 = new Book("The hobbit", "gf", 34, true);
-let b2 = new Book("Let us C", "Dennis Ritchie ", 32, false);
-let b3 = new Book("dgfgfdg  gfgb", "dgfgdbgjhd ", 54, false);
-let b4 = new Book("dgfgffhdg  gfgb", "dgfhgdbgjhd ", 45, false);
+//displayBooks();
 
-myLibrary.addBookToLibrary(b1);
-myLibrary.addBookToLibrary(b2);
-myLibrary.addBookToLibrary(b3);
-myLibrary.addBookToLibrary(b4);
+const addBookBtn = document.querySelector("#addBookButton");
+const addBookDiv = document.querySelector("#addBookDiv");
+const closeAddBookFromBtn = document.querySelector(".close");
+const addBookForm = document.querySelector("#addBookForm");
 
-displayBooks();
+const closeBookModel = () => {
+    addBookDiv.style.display = "none";
 
+}
+
+addBookBtn.addEventListener("click", ()=> { 
+    addBookDiv.style.display = 'block';
+});
+
+closeAddBookFromBtn.addEventListener("click", ()=> {
+    closeBookModel();
+});
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    console.log(event.target);
+    if (event.target == addBookDiv) {
+        closeBookModel();
+    }
+} 
+
+addBookForm.addEventListener("submit", (event)=> {
+    event.preventDefault();
+
+    const bookTitle = document.querySelector("#addBookTitle").value;
+    const bookAuthor = document.querySelector("#addBookAuthor").value;
+    const bookRead = document.querySelector("#addBookRead").checked;
+    const bookPages = document.querySelector("#addBookPages").value;
+
+    if(bookTitle && bookAuthor && !isNaN(bookPages)) {
+        let newBook = new Book(bookTitle, bookAuthor, bookPages, bookRead);
+        myLibrary.addBookToLibrary(newBook);
+        bookListDiv.appendChild(createBookCard(newBook));
+        event.target.reset();
+        closeBookModel();
+    }
+    else {
+        const errorMessage = document.querySelector("#errorMessage");
+        errorMessage.classList.add("active");
+        errorMessage.children[0].textContent = "Fill all fields";
+    }
+})
 
 
 
