@@ -124,7 +124,7 @@ addBookForm.addEventListener("submit", (event)=> {
     const bookRead = document.querySelector("#addBookRead").checked;
     const bookPages = document.querySelector("#addBookPages").value;
 
-    if(bookTitle && bookAuthor && !isNaN(bookPages)) {
+    if(bookTitle && bookAuthor && !isNaN(bookPages) && bookPages > 0) {
         let newBook = new Book(bookTitle, bookAuthor, bookPages, bookRead);
         myLibrary.addBookToLibrary(newBook);
         bookListDiv.appendChild(createBookCard(newBook));
